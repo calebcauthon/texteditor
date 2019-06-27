@@ -20,4 +20,16 @@ describe 'text editor' do
       expect(result).to eq('test-2')
     end
   end
+
+  describe 'multiple instructions' do
+    it 'appends multiple strings together when there are 2 append commands' do
+      instructions = <<~HEREDOC
+        1 Jan
+        2 uary
+      HEREDOC
+
+      result = text_editor(instructions)
+      expect(result).to eq('January')
+    end
+  end
 end
