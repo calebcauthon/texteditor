@@ -1,10 +1,15 @@
 def text_editor instructions
-  if instructions.length > 0
-    operation = instructions.slice(1)
-    text = instructions.slice(2..instructions.length-1)
+  instruction_lines = instructions.split(/\n/)
+  first_line = instruction_lines.first
 
-    return text
+  text = ''
+  if instruction_lines.size > 1
+
+    instruction_lines.slice(1..instruction_lines.size-1).each do |instruction_line|
+      operation = instruction_line.slice(1)
+      text = "#{text}#{instruction_line.slice(2..instruction_line.size-1)}"
+    end
   end
 
-  ''
+  text
 end
