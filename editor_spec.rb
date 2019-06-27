@@ -34,7 +34,7 @@ describe 'text editor' do
       instructions = <<~HEREDOC
         2
         1 Jan
-        2 uary
+        1 uary
       HEREDOC
 
       result = text_editor(instructions)
