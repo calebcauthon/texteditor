@@ -12,20 +12,22 @@ describe 'text editor' do
 
     it 'interprets "1" as append and returns "test-1"' do
       instructions = <<~HEREDOC
-        1
+        2
         1 test-1
+        3 6
       HEREDOC
       result = text_editor(instructions)
-      expect(result).to eq('test-1')
+      expect(result).to eq("1\n")
     end
 
     it 'interprets "1" as append and returns "test-2"' do
       instructions = <<~HEREDOC
-        1
+        2
         1 test-2
+        3 6
       HEREDOC
       result = text_editor(instructions)
-      expect(result).to eq('test-2')
+      expect(result).to eq("2\n")
     end
   end
 
@@ -35,10 +37,11 @@ describe 'text editor' do
         2
         1 Jan
         1 uary
+        3 5
       HEREDOC
 
       result = text_editor(instructions)
-      expect(result).to eq('January')
+      expect(result).to eq("a\n")
     end
   end
 
@@ -50,11 +53,29 @@ describe 'text editor' do
           1 Snake
           1 Oil
           4
+          1 Juice
+          3 6
         HEREDOC
 
         result = text_editor(instructions)
-        expect(result).to eq('Snake')
+        expect(result).to eq("J\n")
       end
+    end
+  end
+
+  describe 'print' do
+    it 'includes the correct character in the output' do
+      instructions = <<~HEREDOC
+        2
+        1 ABCD
+        3 2
+      HEREDOC
+
+      result = text_editor(instructions)
+      expected_result = <<~HEREDOC
+        B
+      HEREDOC
+      expect(result).to eq(expected_result)
     end
   end
 end
