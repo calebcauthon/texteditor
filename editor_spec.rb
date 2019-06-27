@@ -41,4 +41,20 @@ describe 'text editor' do
       expect(result).to eq('January')
     end
   end
+
+  describe 'undo' do
+    describe 'append' do
+      it 'reverts the last append' do
+        instructions = <<~HEREDOC
+          3
+          1 Snake
+          1 Oil
+          4
+        HEREDOC
+
+        result = text_editor(instructions)
+        expect(result).to eq('Snake')
+      end
+    end
+  end
 end
