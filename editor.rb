@@ -92,10 +92,16 @@ module GetCharacter
 end
 
 module Write
-  def write instruction
-    character_index = instruction.operand
+  extend Operator
+  @@action = :print
+
+  def write character_index
     character = get_character character_index
     return "#{character}\n"
+  end
+
+  def self.included(base)
+    self.map_operator base, @@action, lambda { |builder, instruction| builder.write instruction.operand }
   end
 end
 
@@ -116,13 +122,7 @@ class TextBuilder
   end
 
   def operate instruction
-    if instruction.operation == :undo
-      @@operator_map[:undo].call self, instruction
-    elsif instruction.operation == :print
-      write instruction
-    else
-      @@operator_map[:append].call self, instruction
-    end
+    @@operator_map[instruction.operation].call self, instruction
   end
 
   def current_text
