@@ -24,7 +24,7 @@ module Delete
 
   def reverse_delete original_instruction
     characters_removed = @reversal_map[original_instruction]
-    set_new_text_state "#{@current_text}#{characters_removed}"
+    set_new_text_state @current_text.concat(characters_removed)
     return
   end
 

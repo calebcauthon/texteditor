@@ -14,7 +14,7 @@ def text_editor instruction_text
     new_output = text_state.operate instruction
 
     if output.size > 0 and new_output and new_output.size > 0
-      output = "#{output}\n#{new_output}"
+      output << "\n#{new_output}"
     elsif new_output and new_output.size > 0 and output == ''
       output = new_output
     end

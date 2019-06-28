@@ -168,11 +168,34 @@ describe 'text editor' do
       expect(result).to eq(expected_result)
     end
 
-    it 'test case 13 from hackerrank' do
+    it 'handles the 1M instructions from hackerrank test case 10' do
+      instructions = File.read('./spec/test_cases/test_case_10/input.txt')
+      expected_result = File.read('./spec/test_cases/test_case_10/output.txt')
+      result = text_editor(instructions)
+      compare_by_scanning_every(250, result, expected_result)
+    end
+
+    it 'test case 3 from hackerrank' do
       instructions = File.read('./spec/test_cases/test_case_3/input.txt')
       expected_result = File.read('./spec/test_cases/test_case_3/output.txt')
       result = text_editor(instructions)
       expect(result).to eq(expected_result)
     end
+
+    it 'test case 11 from hackerrank' do
+      instructions = File.read('./spec/test_cases/test_case_11/input.txt')
+      expected_result = File.read('./spec/test_cases/test_case_11/output.txt')
+      result = text_editor(instructions)
+      expect(result.size).to eq(expected_result.size)
+
+      compare_by_scanning_every(300, result, expected_result)
+    end
+  end
+end
+
+def compare_by_scanning_every(character_interval, text1, text2)
+  increments = text1.size / character_interval
+  (0..increments).map { |n| n * character_interval - 1 }.each do |index|
+    expect(text1[index]).to eq(text2[index])
   end
 end
