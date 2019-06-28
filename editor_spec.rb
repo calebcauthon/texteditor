@@ -166,5 +166,27 @@ describe 'text editor' do
       HEREDOC
       expect(result).to eq(expected_result)
     end
+
+    it 'test case 1 from hackerrank' do
+      instructions = <<~HEREDOC
+        10
+        1 ewcgpjfh
+        1 igqsbqyp
+        1 qsdliigcj
+        4
+        3 15
+        1 iilmgp
+        2 8
+        4
+        2 18
+        1 scwhors
+      HEREDOC
+
+      result = text_editor(instructions)
+      expected_result = <<~HEREDOC
+        y
+      HEREDOC
+      expect(result).to eq(expected_result)
+    end
   end
 end

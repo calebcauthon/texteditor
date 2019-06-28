@@ -13,6 +13,7 @@ module Delete
 
   def reversal_map
     @reversal_map = Hash.new unless @reversal_map
+    @reversal_map
   end
 
   def track_reversal instruction, characters_removed
