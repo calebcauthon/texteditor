@@ -102,4 +102,28 @@ describe 'text editor' do
       expect(result).to eq(expected_result)
     end
   end
+
+  describe 'mix of all operations' do
+    it 'returns c/y/a' do
+      instructions = <<~HEREDOC
+        8
+        1 abc
+        3 3
+        2 3
+        1 xy
+        3 2
+        4 
+        4 
+        3 1
+      HEREDOC
+
+      result = text_editor(instructions)
+      expected_result = <<~HEREDOC
+        c
+        y
+        a
+      HEREDOC
+      expect(result).to eq(expected_result)
+    end
+  end
 end
