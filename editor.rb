@@ -50,7 +50,41 @@ class InstructionParser
   end
 end
 
+module Append
+  def append text
+    @previous_states.push @current_text
+    @current_text = "#{@current_text}#{text}"
+    return
+  end
+end
+
+module Undo
+  def undo
+    @current_text = @previous_states.pop
+    return
+  end
+end
+
+module GetCharacter
+  def get_character character_index
+    @current_text[character_index.to_i-1]
+  end
+end
+
+module Write
+  def write instruction
+    character_index = instruction.operand
+    character = get_character character_index
+    return "#{character}\n"
+  end
+end
+
 class TextBuilder
+  include Append
+  include Undo
+  include GetCharacter
+  include Write
+
   def initialize
     @current_text = ''
     @previous_states = []
@@ -59,31 +93,14 @@ class TextBuilder
   def operate instruction
     if instruction.operation == :undo
       undo
-      nil
     elsif instruction.operation == :print
-      character_index = instruction.operand
-      character = get_character character_index
-      return "#{character}\n"
+      write instruction
     else
       append instruction.operand
-      return nil
     end
-  end
-
-  def append text
-    @previous_states.push @current_text
-    @current_text = "#{@current_text}#{text}"
   end
 
   def current_text
     @current_text
-  end
-
-  def undo
-    @current_text = @previous_states.pop
-  end
-
-  def get_character character_index
-    @current_text[character_index.to_i-1]
   end
 end
