@@ -1,20 +1,19 @@
 def text_editor instruction_text
   text_state = TextBuilder.new
-  instructions = Instructions.new
+  instructions = InstructionParser.new
   instructions.load instruction_text
 
   output = ''
 
-  instructions.each do |instruction_line|
-    operation = instruction_line.slice(0)
-    if operation == '4'
+  instructions.each do |instruction|
+    if instruction.operator == '4'
       text_state.undo
-    elsif operation == '3'
-      character_index = instruction_line.slice(2..instruction_line.size-1)
+    elsif instruction.operator == '3'
+      character_index = instruction.operand
       character = text_state.get_character character_index
       output = "#{output}#{character}\n"
     else
-      text_to_append = instruction_line.slice(2..instruction_line.size-1)
+      text_to_append = instruction.operand
       text_state.append text_to_append
     end
   end
@@ -22,7 +21,17 @@ def text_editor instruction_text
   output
 end
 
-class Instructions
+class Instruction
+  attr_accessor :operator
+  attr_accessor :operand
+
+  def initialize instruction_line
+    @operator = instruction_line.slice(0)
+    @operand = instruction_line.slice(2..instruction_line.size-1)
+  end
+end
+
+class InstructionParser
   def load text
     all_lines = text.split(/\n/)
     @instruction_lines = all_lines.slice(1..all_lines.size-1)
@@ -32,8 +41,9 @@ class Instructions
   def each
     return nil unless @instruction_lines.at(@index)
 
-    @instruction_lines.each do |line|
-      yield line
+    @instruction_lines.each do |instruction_line|
+      instruction = Instruction.new instruction_line
+      yield instruction
     end
   end
 end
