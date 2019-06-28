@@ -28,6 +28,8 @@ class Instruction
       @operation = :undo
     when '3'
       @operation = :print
+    when '2'
+      @operation = :delete
     when '1'
       @operation = :append
     end
@@ -62,6 +64,7 @@ class TextBuilder
   include Append
   include Undo
   include Write
+  include Delete
 
   def initialize
     @current_text = ''

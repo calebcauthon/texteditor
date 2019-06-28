@@ -78,4 +78,28 @@ describe 'text editor' do
       expect(result).to eq(expected_result)
     end
   end
+
+  describe 'delete' do
+    it 'removes the correct last number of characters' do
+      instructions = <<~HEREDOC
+        7
+        1 dogfood
+        2 4
+        1 tail
+        3 4
+        3 5
+        3 6
+        3 7
+      HEREDOC
+
+      result = text_editor(instructions)
+      expected_result = <<~HEREDOC
+        t
+        a
+        i
+        l
+      HEREDOC
+      expect(result).to eq(expected_result)
+    end
+  end
 end
