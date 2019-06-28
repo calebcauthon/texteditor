@@ -1,3 +1,6 @@
+require 'require_all'
+require_all './operations'
+
 def text_editor instruction_text
   text_state = TextBuilder.new
   instructions = InstructionParser.new
@@ -50,61 +53,6 @@ class InstructionParser
   end
 end
 
-module Operator
-  def map_operator text_builder_class, operator, action
-    text_builder_class.operator_map[operator] = action
-  end
-end
-
-module Append
-  extend Operator
-
-  def append text
-    @previous_states.push @current_text
-    @current_text = "#{@current_text}#{text}"
-
-    return
-  end
-
-  def self.included(base)
-    self.map_operator base, :append, lambda { |builder, instruction| builder.append instruction.operand }
-  end
-end
-
-module Undo
-  extend Operator
-  @@action = :undo
-
-  def undo
-    @current_text = @previous_states.pop
-    return
-  end
-
-  def self.included(base)
-    self.map_operator base, @@action, lambda { |builder, instruction| builder.undo }
-  end
-end
-
-module GetCharacter
-  def get_character character_index
-    @current_text[character_index.to_i-1]
-  end
-end
-
-module Write
-  extend Operator
-  @@action = :print
-
-  def write character_index
-    character = get_character character_index
-    return "#{character}\n"
-  end
-
-  def self.included(base)
-    self.map_operator base, @@action, lambda { |builder, instruction| builder.write instruction.operand }
-  end
-end
-
 class TextBuilder
   @@operator_map = Hash.new
   def self.operator_map
@@ -113,7 +61,6 @@ class TextBuilder
 
   include Append
   include Undo
-  include GetCharacter
   include Write
 
   def initialize
