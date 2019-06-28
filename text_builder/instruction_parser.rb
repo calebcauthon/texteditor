@@ -11,7 +11,8 @@ class InstructionParser
     return nil unless @instruction_lines.at(@index)
 
     @instruction_lines.each do |instruction_line|
-      instruction = Instruction.new instruction_line
+      instruction = Instruction.new
+      instruction.load_from_text instruction_line
       yield instruction
     end
   end

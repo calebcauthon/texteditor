@@ -2,7 +2,7 @@ class Instruction
   attr_accessor :operation
   attr_accessor :operand
 
-  def initialize instruction_line
+  def load_from_text instruction_line
     operator = instruction_line.slice(0)
 
     case operator
@@ -26,21 +26,9 @@ class Instruction
   end
 
   def reverse current_text
-    return nil if @reverse_disabled
-
-    if @operation == :replace
-      instruction = Instruction.new "5 #{self.operand.reverse}"
-      instruction.disable_reversal
-      instruction
-    elsif @operation == :append
-      instruction = Instruction.new "2 #{self.operand.size}"
-      instruction.disable_reversal
-      instruction
-    elsif @operation == :delete
-      characters_to_add_back = current_text[current_text.size-1-self.operand.size-1..current_text.size-1]
-      instruction = Instruction.new "1 #{characters_to_add_back}"
-      instruction.disable_reversal
-      instruction
-    end
+    instruction = Instruction.new
+    instruction.operation = "reverse_#{@operation.to_s}".to_sym
+    instruction.operand = self
+    instruction
   end
 end

@@ -11,5 +11,6 @@ module Replace
 
   def self.included(base)
     self.map_operator base, @@action, lambda { |builder, instruction| builder.replace(instruction.operand[0], instruction.operand[2]) }
+    self.map_operator base, :reverse_replace, lambda { |builder, instruction| builder.replace instruction.operand.operand[2], instruction.operand.operand[0] }
   end
 end
