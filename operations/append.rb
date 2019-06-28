@@ -4,9 +4,7 @@ module Append
   extend Operator
 
   def append text
-    @previous_states.push @current_text
-    @current_text = "#{@current_text}#{text}"
-
+    set_new_text_state "#{@current_text}#{text}"
     return
   end
 

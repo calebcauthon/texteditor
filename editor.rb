@@ -72,6 +72,11 @@ class TextBuilder
     @@operator_map[instruction.operation].call self, instruction
   end
 
+  def set_new_text_state text
+    @previous_states.push @current_text
+    @current_text = text
+  end
+
   def current_text
     @current_text
   end
