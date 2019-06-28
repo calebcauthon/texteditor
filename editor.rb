@@ -6,16 +6,8 @@ def text_editor instruction_text
   output = ''
 
   instructions.each do |instruction|
-    if instruction.operation == :undo
-      text_state.undo
-    elsif instruction.operation == :print
-      character_index = instruction.operand
-      character = text_state.get_character character_index
-      output = "#{output}#{character}\n"
-    else
-      text_to_append = instruction.operand
-      text_state.append text_to_append
-    end
+    new_output = text_state.operate instruction
+    output = "#{output}#{new_output}"
   end
 
   output
@@ -62,6 +54,20 @@ class TextBuilder
   def initialize
     @current_text = ''
     @previous_states = []
+  end
+
+  def operate instruction
+    if instruction.operation == :undo
+      undo
+      nil
+    elsif instruction.operation == :print
+      character_index = instruction.operand
+      character = get_character character_index
+      return "#{character}\n"
+    else
+      append instruction.operand
+      return nil
+    end
   end
 
   def append text
