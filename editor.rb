@@ -6,9 +6,9 @@ def text_editor instruction_text
   output = ''
 
   instructions.each do |instruction|
-    if instruction.operator == '4'
+    if instruction.operation == :undo
       text_state.undo
-    elsif instruction.operator == '3'
+    elsif instruction.operation == :print
       character_index = instruction.operand
       character = text_state.get_character character_index
       output = "#{output}#{character}\n"
@@ -22,11 +22,21 @@ def text_editor instruction_text
 end
 
 class Instruction
-  attr_accessor :operator
+  attr_accessor :operation
   attr_accessor :operand
 
   def initialize instruction_line
-    @operator = instruction_line.slice(0)
+    operator = instruction_line.slice(0)
+
+    case operator
+    when '4'
+      @operation = :undo
+    when '3'
+      @operation = :print
+    when '1'
+      @operation = :append
+    end
+
     @operand = instruction_line.slice(2..instruction_line.size-1)
   end
 end
