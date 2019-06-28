@@ -61,14 +61,14 @@ class TextBuilder
     @@operator_map
   end
 
-  include Append
-  include Undo
-  include Write
-  include Delete
+  @@on_before_new_text_state = Array.new
 
   def initialize
     @current_text = ''
-    @previous_states = []
+  end
+
+  def self.on_before_new_text_state
+    @@on_before_new_text_state
   end
 
   def operate instruction
@@ -76,11 +76,16 @@ class TextBuilder
   end
 
   def set_new_text_state text
-    @previous_states.push @current_text
+    @@on_before_new_text_state.each { |hook| hook.call(self, text) }
     @current_text = text
   end
 
   def current_text
     @current_text
   end
+
+  include Append
+  include Undo
+  include Write
+  include Delete
 end
