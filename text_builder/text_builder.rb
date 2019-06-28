@@ -17,11 +17,12 @@ class TextBuilder
   end
 
   def operate instruction
+    @current_instruction = instruction
     @@operator_map[instruction.operation].call self, instruction
   end
 
   def set_new_text_state text
-    @@on_before_new_text_state.each { |hook| hook.call(self, text) }
+    @@on_before_new_text_state.each { |hook| hook.call(self, self.current_text, text, @current_instruction) }
     @current_text = text
   end
 

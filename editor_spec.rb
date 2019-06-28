@@ -122,6 +122,26 @@ describe 'text editor' do
       HEREDOC
       expect(result).to eq(expected_result)
     end
+
+    it 'can be reversed' do
+      instructions = <<~HEREDOC
+        7
+        1 pop
+        5 p t
+        4
+        3 1
+        3 2
+        3 3
+      HEREDOC
+
+      result = text_editor(instructions)
+      expected_result = <<~HEREDOC
+        p
+        o
+        p
+      HEREDOC
+      expect(result).to eq(expected_result)
+    end
   end
 
   describe 'mix of all operations' do
