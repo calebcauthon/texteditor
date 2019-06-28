@@ -103,6 +103,27 @@ describe 'text editor' do
     end
   end
 
+  describe 'replace' do
+    it 'replaces all instances of one character with another' do
+      instructions = <<~HEREDOC
+        7
+        1 pop
+        5 p t
+        3 1
+        3 2
+        3 3
+      HEREDOC
+
+      result = text_editor(instructions)
+      expected_result = <<~HEREDOC
+        t
+        o
+        t
+      HEREDOC
+      expect(result).to eq(expected_result)
+    end
+  end
+
   describe 'mix of all operations' do
     it 'returns c/y/a' do
       instructions = <<~HEREDOC

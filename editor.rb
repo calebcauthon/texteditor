@@ -32,6 +32,8 @@ class Instruction
       @operation = :delete
     when '1'
       @operation = :append
+    when '5'
+      @operation = :replace
     end
 
     @operand = instruction_line.slice(2..instruction_line.size-1)
@@ -88,4 +90,5 @@ class TextBuilder
   include Undo
   include Write
   include Delete
+  include Replace
 end
