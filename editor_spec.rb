@@ -17,7 +17,7 @@ describe 'text editor' do
         3 6
       HEREDOC
       result = text_editor(instructions)
-      expect(result).to eq("1\n")
+      expect(result).to eq("1")
     end
 
     it 'interprets "1" as append and returns "test-2"' do
@@ -27,7 +27,7 @@ describe 'text editor' do
         3 6
       HEREDOC
       result = text_editor(instructions)
-      expect(result).to eq("2\n")
+      expect(result).to eq("2")
     end
   end
 
@@ -41,7 +41,7 @@ describe 'text editor' do
       HEREDOC
 
       result = text_editor(instructions)
-      expect(result).to eq("a\n")
+      expect(result).to eq("a")
     end
   end
 
@@ -58,7 +58,7 @@ describe 'text editor' do
         HEREDOC
 
         result = text_editor(instructions)
-        expect(result).to eq("J\n")
+        expect(result).to eq("J")
       end
     end
   end
@@ -72,9 +72,7 @@ describe 'text editor' do
       HEREDOC
 
       result = text_editor(instructions)
-      expected_result = <<~HEREDOC
-        B
-      HEREDOC
+      expected_result = "B"
       expect(result).to eq(expected_result)
     end
   end
@@ -93,12 +91,7 @@ describe 'text editor' do
       HEREDOC
 
       result = text_editor(instructions)
-      expected_result = <<~HEREDOC
-        t
-        a
-        i
-        l
-      HEREDOC
+      expected_result = "t\na\ni\nl"
       expect(result).to eq(expected_result)
     end
   end
@@ -115,11 +108,7 @@ describe 'text editor' do
       HEREDOC
 
       result = text_editor(instructions)
-      expected_result = <<~HEREDOC
-        t
-        o
-        t
-      HEREDOC
+      expected_result = "t\no\nt"
       expect(result).to eq(expected_result)
     end
 
@@ -135,11 +124,7 @@ describe 'text editor' do
       HEREDOC
 
       result = text_editor(instructions)
-      expected_result = <<~HEREDOC
-        p
-        o
-        p
-      HEREDOC
+      expected_result = "p\no\np"
       expect(result).to eq(expected_result)
     end
   end
@@ -159,11 +144,7 @@ describe 'text editor' do
       HEREDOC
 
       result = text_editor(instructions)
-      expected_result = <<~HEREDOC
-        c
-        y
-        a
-      HEREDOC
+      expected_result = "c\ny\na"
       expect(result).to eq(expected_result)
     end
 
@@ -183,9 +164,14 @@ describe 'text editor' do
       HEREDOC
 
       result = text_editor(instructions)
-      expected_result = <<~HEREDOC
-        y
-      HEREDOC
+      expected_result = "y"
+      expect(result).to eq(expected_result)
+    end
+
+    it 'test case 13 from hackerrank' do
+      instructions = File.read('./spec/test_cases/test_case_3/input.txt')
+      expected_result = File.read('./spec/test_cases/test_case_3/output.txt')
+      result = text_editor(instructions)
       expect(result).to eq(expected_result)
     end
   end

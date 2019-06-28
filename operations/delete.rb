@@ -5,7 +5,9 @@ module Delete
   @@action = :delete
 
   def delete character_count, instruction
-    characters_to_delete = current_text[current_text.size-1-instruction.operand.size-1..current_text.size-1]
+    start = current_text.size-instruction.operand.to_i
+    the_end = current_text.size-1
+    characters_to_delete = current_text[start..the_end]
     track_reversal instruction, characters_to_delete
     set_new_text_state @current_text[0...(-1 * character_count)]
     return

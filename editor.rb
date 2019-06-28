@@ -8,10 +8,16 @@ def text_editor instruction_text
   instructions.load instruction_text
 
   output = ''
-
+  count = 1
   instructions.each do |instruction|
+    count = count + 1
     new_output = text_state.operate instruction
-    output = "#{output}#{new_output}"
+
+    if output.size > 0 and new_output and new_output.size > 0
+      output = "#{output}\n#{new_output}"
+    elsif new_output and new_output.size > 0 and output == ''
+      output = new_output
+    end
   end
 
   output

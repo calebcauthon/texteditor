@@ -6,7 +6,7 @@ module Write
 
   def write character_index
     character = get_character character_index
-    return "#{character}\n"
+    return character
   end
 
   def get_character character_index

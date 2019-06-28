@@ -18,7 +18,10 @@ class TextBuilder
 
   def operate instruction
     @current_instruction = instruction
-    @@operator_map[instruction.operation].call self, instruction
+
+    output = @@operator_map[instruction.operation].call self, instruction if @@operator_map[instruction.operation]
+
+    output
   end
 
   def set_new_text_state text
