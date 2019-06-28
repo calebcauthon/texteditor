@@ -8,13 +8,15 @@ module Append
     return
   end
 
-  def reverse_append character_count
+  def reverse_append instruction
+    original_instruction = instruction.operand
+    character_count = original_instruction.operand.size
     @current_text = @current_text[0...(-1 * character_count)]
     return
   end
 
   def self.included(base)
     self.map_operator base, :append, lambda { |builder, instruction| builder.append instruction.operand }
-    self.map_operator base, :reverse_append, lambda { |builder, instruction| builder.reverse_append instruction.operand.operand.size }
+    self.map_operator base, :reverse_append, lambda { |builder, instruction| builder.reverse_append instruction }
   end
 end
