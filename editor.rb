@@ -50,18 +50,38 @@ class InstructionParser
   end
 end
 
+module Operator
+  def map_operator text_builder_class, operator, action
+    text_builder_class.operator_map[operator] = action
+  end
+end
+
 module Append
+  extend Operator
+
   def append text
     @previous_states.push @current_text
     @current_text = "#{@current_text}#{text}"
+
     return
+  end
+
+  def self.included(base)
+    self.map_operator base, :append, lambda { |builder, instruction| builder.append instruction.operand }
   end
 end
 
 module Undo
+  extend Operator
+  @@action = :undo
+
   def undo
     @current_text = @previous_states.pop
     return
+  end
+
+  def self.included(base)
+    self.map_operator base, @@action, lambda { |builder, instruction| builder.undo }
   end
 end
 
@@ -80,6 +100,11 @@ module Write
 end
 
 class TextBuilder
+  @@operator_map = Hash.new
+  def self.operator_map
+    @@operator_map
+  end
+
   include Append
   include Undo
   include GetCharacter
@@ -92,11 +117,11 @@ class TextBuilder
 
   def operate instruction
     if instruction.operation == :undo
-      undo
+      @@operator_map[:undo].call self, instruction
     elsif instruction.operation == :print
       write instruction
     else
-      append instruction.operand
+      @@operator_map[:append].call self, instruction
     end
   end
 
