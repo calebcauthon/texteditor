@@ -12,12 +12,17 @@ def text_editor instruction_text
   instructions.each do |instruction|
     count = count + 1
     new_output = text_state.operate instruction
+    output = append_to_output output, new_output
+  end
 
-    if output.size > 0 and new_output and new_output.size > 0
-      output << "\n#{new_output}"
-    elsif new_output and new_output.size > 0 and output == ''
-      output = new_output
-    end
+  output
+end
+
+def append_to_output output, new_output
+  if output.size > 0 and new_output and new_output.size > 0
+    output << "\n#{new_output}"
+  elsif new_output and new_output.size > 0 and output == ''
+    output = new_output
   end
 
   output
