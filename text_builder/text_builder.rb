@@ -19,7 +19,11 @@ class TextBuilder
   def operate instruction
     @current_instruction = instruction
 
-    output = @@operator_map[instruction.operation].call self, instruction if @@operator_map[instruction.operation]
+    if [:print].include?(instruction.operation)
+      output = instruction.operation_class.execute(self, instruction)
+    else
+      output = @@operator_map[instruction.operation].call self, instruction if @@operator_map[instruction.operation]
+    end
 
     output
   end

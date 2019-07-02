@@ -1,5 +1,6 @@
 class Instruction
   attr_accessor :operation
+  attr_accessor :operation_class
   attr_accessor :operand
   attr_accessor :raw
 
@@ -11,6 +12,7 @@ class Instruction
       @operation = :undo
     when '3'
       @operation = :print
+      @operation_class = Print.new
     when '2'
       @operation = :delete
     when '1'

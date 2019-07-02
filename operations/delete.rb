@@ -29,7 +29,12 @@ module Delete
   end
 
   def self.included(base)
-    self.map_operator(base, @@action, lambda { |builder, instruction| builder.delete instruction.operand.to_i, instruction })
+    execute_delete_instruction = -> (builder, instruction) {
+      builder.delete(instruction.operand.to_i, instruction)
+    }
+    self.map_operator(base, @@action, execute_delete_instruction)
+
+
     self.map_operator(base, :reverse_delete, lambda { |builder, instruction| builder.reverse_delete instruction.operand })
   end
 end

@@ -16,7 +16,18 @@ module Append
   end
 
   def self.included(base)
-    self.map_operator(base, :append, lambda { |builder, instruction| builder.append instruction.operand })
-    self.map_operator(base, :reverse_append, lambda { |builder, instruction| builder.reverse_append instruction })
+    execute_append_instruction = -> (builder, instruction) {
+      builder.append instruction.operand
+    }
+    self.map_operator(base, :append, execute_append_instruction)
+
+    execute_reverse_append_instruction = -> (builder, instruction) {
+      builder.reverse_append instruction
+    }
+    self.map_operator(
+      base,
+      :reverse_append,
+      execute_reverse_append_instruction
+    )
   end
 end
