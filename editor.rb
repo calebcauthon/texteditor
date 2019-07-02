@@ -19,9 +19,9 @@ def text_editor(instruction_text)
 end
 
 def append_to_output(output, new_output)
-  if output.size > 0 and new_output and new_output.size > 0
+  if output.size > 0 && new_output && new_output.size > 0
     output << "\n#{new_output}"
-  elsif new_output and new_output.size > 0 and output == ''
+  elsif new_output && new_output.size > 0 && output == ''
     output = new_output
   end
 
