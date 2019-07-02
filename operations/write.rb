@@ -5,8 +5,7 @@ module Write
   @@action = :print
 
   def write(character_index)
-    character = get_character(character_index)
-    return character
+    get_character(character_index)
   end
 
   def get_character(character_index)

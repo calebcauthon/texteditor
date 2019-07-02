@@ -10,7 +10,7 @@ module Delete
     characters_to_delete = current_text[start..the_end]
     track_reversal instruction, characters_to_delete
     set_new_text_state @current_text[0...(-1 * character_count)]
-    return
+    nil
   end
 
   def reversal_map
@@ -25,7 +25,7 @@ module Delete
   def reverse_delete(original_instruction)
     characters_removed = @reversal_map[original_instruction]
     set_new_text_state @current_text.concat(characters_removed)
-    return
+    nil
   end
 
   def self.included(base)

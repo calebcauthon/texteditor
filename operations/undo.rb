@@ -7,7 +7,7 @@ module Undo
   def undo
     undo_instruction = undo_queue.pop
     operate undo_instruction
-    return
+    nil
   end
 
   def undo_queue

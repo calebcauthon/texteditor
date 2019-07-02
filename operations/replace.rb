@@ -6,7 +6,7 @@ module Replace
 
   def replace(remove_character, add_character)
     set_new_text_state(@current_text.gsub(remove_character, add_character))
-    return nil
+    nil
   end
 
   def reverse_replace(reversal_instruction)
