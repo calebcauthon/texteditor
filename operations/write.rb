@@ -4,16 +4,16 @@ module Write
   extend Operator
   @@action = :print
 
-  def write character_index
-    character = get_character character_index
+  def write(character_index)
+    character = get_character(character_index)
     return character
   end
 
-  def get_character character_index
+  def get_character(character_index)
     @current_text[character_index.to_i-1]
   end
 
   def self.included(base)
-    self.map_operator base, @@action, lambda { |builder, instruction| builder.write instruction.operand }
+    self.map_operator(base, @@action, lambda { |builder, instruction| builder.write instruction.operand })
   end
 end

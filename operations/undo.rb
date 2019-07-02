@@ -15,13 +15,13 @@ module Undo
     @undo_queue
   end
 
-  def save_previous_state text, instruction
+  def save_previous_state(text, instruction)
     undo_queue.push instruction.reverse(current_text) if instruction.reverse(current_text)
   end
 
   def self.included(base)
-    self.map_operator base, @@action, lambda { |builder, instruction| builder.undo }
+    self.map_operator(base, @@action, lambda { |builder, instruction| builder.undo })
     hook = lambda { |builder, old_text, new_text, instruction| builder.save_previous_state old_text, instruction }
-    base.on_before_new_text_state.push hook
+    base.on_before_new_text_state.push(hook)
   end
 end
