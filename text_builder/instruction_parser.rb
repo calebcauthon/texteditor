@@ -7,7 +7,7 @@ class InstructionParser
     @index = 0
   end
 
-  def each
+  def each_instruction
     return nil unless @instruction_lines.at(@index)
 
     @instruction_lines.each do |instruction_line|
