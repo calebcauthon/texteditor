@@ -36,6 +36,5 @@ class TextBuilder
   end
 
   include Undo
-  include Write
   include DeleteMixin
 end

@@ -12,7 +12,7 @@ class Instruction
       @operation = :undo
     when '3'
       @operation = :print
-      @operation_class = Print.new
+      @operation_class = Write.new
     when '2'
       @operation = :delete
       @operation_class = Delete.new
