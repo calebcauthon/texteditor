@@ -1,6 +1,8 @@
 require_relative './instruction_parser'
 
 class TextBuilder
+  attr_accessor :current_text
+
   @@operator_map = Hash.new
   def self.operator_map
     @@operator_map
@@ -19,7 +21,7 @@ class TextBuilder
   def operate instruction
     @current_instruction = instruction
 
-    if [:print, :delete, :append, :replace].include?(instruction.operation) or instruction.operation_class.class.name == 'ReplaceUndo'
+    if [:print, :delete, :append, :replace].include?(instruction.operation) or ['ReplaceUndo', 'AppendUndo'].include?(instruction.operation_class.class.name)
       output = instruction.operation_class.execute(self, instruction)
     else
       output = @@operator_map[instruction.operation].call self, instruction if @@operator_map[instruction.operation]
@@ -33,11 +35,6 @@ class TextBuilder
     @current_text = text
   end
 
-  def current_text
-    @current_text
-  end
-
-  include AppendMixin
   include Undo
   include Write
   include DeleteMixin

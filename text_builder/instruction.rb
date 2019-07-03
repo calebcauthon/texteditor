@@ -37,7 +37,7 @@ class Instruction
 
     reverse_name = "reverse_#{@operation.to_s}".to_sym
 
-    if [:reverse_replace].include?(reverse_name)
+    if [:reverse_replace, :reverse_append].include?(reverse_name)
       instruction = Instruction.new
       instruction.operation_class = self.operation_class.undo
       instruction.operand = self
