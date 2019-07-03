@@ -7,19 +7,20 @@ def text_editor(instruction_text)
   instructions = InstructionParser.new
   instructions.load(instruction_text)
 
-  output = ''
-  instructions.each_instruction do |instruction|
-    new_output = text_state.operate instruction
-    output = append_to_output(output, new_output)
-  end
+  instructions.instruction_lines.inject '' do |output, instruction_text|
+    instruction = Instruction.new
+    instruction.load_from_text instruction_text
 
-  output
+    new_output = text_state.operate instruction
+
+    append_to_output(output, new_output)
+  end
 end
 
 def append_to_output(output, new_output)
   if output.size > 0 && new_output && new_output.size > 0
     output << "\n#{new_output}"
-  elsif new_output && new_output.size > 0 && output == ''
+  elsif output == '' && new_output && new_output.size > 0
     output = new_output
   end
 
