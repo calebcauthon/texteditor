@@ -25,11 +25,9 @@ class Instruction
   end
 
   def reverse current_text
-    if @operation_class.is_reversible?
-      instruction = Instruction.new
-      instruction.operation_class = self.operation_class.undo
-      instruction.operand = self
-      instruction
-    end
+    instruction = Instruction.new
+    instruction.operation_class = self.operation_class.undo
+    instruction.operand = self
+    instruction
   end
 end
