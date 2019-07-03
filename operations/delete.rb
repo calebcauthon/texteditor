@@ -1,52 +1,28 @@
 require_relative './operator'
 
 class Delete
+  attr_accessor :characters_removed
+
   def execute(builder, instruction)
     character_count = instruction.operand.to_i
     start = builder.current_text.size-instruction.operand.to_i
     the_end = builder.current_text.size-1
     characters_to_delete = builder.current_text[start..the_end]
-    builder.track_reversal instruction, characters_to_delete
     builder.set_new_text_state builder.current_text[0...(-1 * character_count)]
+
+    @characters_removed = characters_to_delete
     nil
+  end
+
+  def undo
+    DeleteUndo.new
   end
 end
 
-module DeleteMixin
-  extend Operator
-  @@action = :delete
-
-  def delete(character_count, instruction)
-    start = current_text.size-instruction.operand.to_i
-    the_end = current_text.size-1
-    characters_to_delete = current_text[start..the_end]
-    track_reversal instruction, characters_to_delete
-    set_new_text_state @current_text[0...(-1 * character_count)]
+class DeleteUndo
+  def execute(builder, instruction)
+    characters_removed = instruction.operand.operation_class.characters_removed
+    builder.set_new_text_state builder.current_text.concat(characters_removed)
     nil
-  end
-
-  def reversal_map
-    @reversal_map = Hash.new unless @reversal_map
-    @reversal_map
-  end
-
-  def track_reversal(instruction, characters_removed)
-    reversal_map[instruction] = characters_removed
-  end
-
-  def reverse_delete(original_instruction)
-    characters_removed = @reversal_map[original_instruction]
-    set_new_text_state @current_text.concat(characters_removed)
-    nil
-  end
-
-  def self.included(base)
-    execute_delete_instruction = -> (builder, instruction) {
-      builder.delete(instruction.operand.to_i, instruction)
-    }
-    self.map_operator(base, @@action, execute_delete_instruction)
-
-
-    self.map_operator(base, :reverse_delete, lambda { |builder, instruction| builder.reverse_delete instruction.operand })
   end
 end
