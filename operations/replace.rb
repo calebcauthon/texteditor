@@ -7,6 +7,10 @@ class Replace
     builder.set_new_text_state(builder.current_text.gsub(remove_character, add_character))
     nil
   end
+
+  def undo
+    ReplaceUndo.new
+  end
 end
 
 class ReplaceUndo
