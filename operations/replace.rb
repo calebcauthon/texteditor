@@ -1,6 +1,10 @@
 require_relative './operator'
 
 class Replace
+  def is_reversible?
+    true
+  end
+
   def execute(builder, instruction)
     remove_character = instruction.operand[0]
     add_character = instruction.operand[2]
@@ -14,6 +18,10 @@ class Replace
 end
 
 class ReplaceUndo
+  def is_reversible?
+    false
+  end
+
   def execute(builder, instruction)
     reversal_instruction = instruction
     original_instruction = reversal_instruction.operand

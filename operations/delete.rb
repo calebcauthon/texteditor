@@ -3,6 +3,10 @@ require_relative './operator'
 class Delete
   attr_accessor :characters_removed
 
+  def is_reversible?
+    true
+  end
+
   def execute(builder, instruction)
     character_count = instruction.operand.to_i
     start = builder.current_text.size-instruction.operand.to_i
@@ -20,6 +24,10 @@ class Delete
 end
 
 class DeleteUndo
+  def is_reversible?
+    false
+  end
+
   def execute(builder, instruction)
     characters_removed = instruction.operand.operation_class.characters_removed
     builder.set_new_text_state builder.current_text.concat(characters_removed)

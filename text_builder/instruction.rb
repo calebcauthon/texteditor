@@ -37,16 +37,10 @@ class Instruction
 
     reverse_name = "reverse_#{@operation.to_s}".to_sym
 
-    if [:reverse_replace, :reverse_append, :reverse_delete].include?(reverse_name)
+    if @operation_class.is_reversible?
       instruction = Instruction.new
       instruction.operation_class = self.operation_class.undo
       instruction.operand = self
-      instruction
-    else
-      instruction = Instruction.new
-      instruction.operation = "reverse_#{@operation.to_s}".to_sym
-      instruction.operand = self
-      instruction.disable_reversal
       instruction
     end
   end
