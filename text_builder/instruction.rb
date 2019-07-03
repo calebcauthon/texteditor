@@ -18,6 +18,7 @@ class Instruction
       @operation_class = Delete.new
     when '1'
       @operation = :append
+      @operation_class = Append.new
     when '5'
       @operation = :replace
     end

@@ -1,6 +1,14 @@
 require_relative './operator'
 
-module Append
+class Append
+  def execute(builder, instruction)
+    text = instruction.operand
+    builder.set_new_text_state("#{builder.current_text}#{text}")
+    nil
+  end
+end
+
+module AppendMixin
   extend Operator
 
   def append(text)
