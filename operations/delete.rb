@@ -1,6 +1,18 @@
 require_relative './operator'
 
-module Delete
+class Delete
+  def execute(builder, instruction)
+    character_count = instruction.operand.to_i
+    start = builder.current_text.size-instruction.operand.to_i
+    the_end = builder.current_text.size-1
+    characters_to_delete = builder.current_text[start..the_end]
+    builder.track_reversal instruction, characters_to_delete
+    builder.set_new_text_state builder.current_text[0...(-1 * character_count)]
+    nil
+  end
+end
+
+module DeleteMixin
   extend Operator
   @@action = :delete
 

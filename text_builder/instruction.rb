@@ -15,6 +15,7 @@ class Instruction
       @operation_class = Print.new
     when '2'
       @operation = :delete
+      @operation_class = Delete.new
     when '1'
       @operation = :append
     when '5'
