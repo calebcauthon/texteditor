@@ -35,10 +35,21 @@ class Instruction
   def reverse current_text
     return if @reverse_disabled
 
-    instruction = Instruction.new
-    instruction.operation = "reverse_#{@operation.to_s}".to_sym
-    instruction.operand = self
-    instruction.disable_reversal
-    instruction
+    reverse_name = "reverse_#{@operation.to_s}".to_sym
+
+    if [:reverse_replace].include?(reverse_name)
+      instruction = Instruction.new
+      instruction.operation = "reverse_#{@operation.to_s}".to_sym
+      instruction.operation_class = ReplaceUndo.new
+      instruction.operand = self
+      instruction.disable_reversal
+      instruction
+    else
+      instruction = Instruction.new
+      instruction.operation = "reverse_#{@operation.to_s}".to_sym
+      instruction.operand = self
+      instruction.disable_reversal
+      instruction
+    end
   end
 end

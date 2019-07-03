@@ -19,9 +19,10 @@ class TextBuilder
   def operate instruction
     @current_instruction = instruction
 
-    if [:print, :delete, :append, :replace].include?(instruction.operation)
+    if [:print, :delete, :append, :replace, :reverse_replace].include?(instruction.operation)
       output = instruction.operation_class.execute(self, instruction)
     else
+      puts instruction.operation
       output = @@operator_map[instruction.operation].call self, instruction if @@operator_map[instruction.operation]
     end
 

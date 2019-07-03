@@ -9,6 +9,16 @@ class Replace
   end
 end
 
+class ReplaceUndo
+  def execute(builder, instruction)
+    reversal_instruction = instruction
+    original_instruction = reversal_instruction.operand
+    remove_character = original_instruction.operand[2]
+    add_character = original_instruction.operand[0]
+    builder.set_new_text_state(builder.current_text.gsub(remove_character, add_character))
+  end
+end
+
 module ReplaceMixin
   extend Operator
   @@action = :replace
