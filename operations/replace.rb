@@ -1,6 +1,15 @@
 require_relative './operator'
 
-module Replace
+class Replace
+  def execute(builder, instruction)
+    remove_character = instruction.operand[0]
+    add_character = instruction.operand[2]
+    builder.set_new_text_state(builder.current_text.gsub(remove_character, add_character))
+    nil
+  end
+end
+
+module ReplaceMixin
   extend Operator
   @@action = :replace
 

@@ -21,6 +21,7 @@ class Instruction
       @operation_class = Append.new
     when '5'
       @operation = :replace
+      @operation_class = Replace.new
     end
 
     @operand = instruction_line.slice(2..instruction_line.size-1)

@@ -19,7 +19,7 @@ class TextBuilder
   def operate instruction
     @current_instruction = instruction
 
-    if [:print, :delete, :append].include?(instruction.operation)
+    if [:print, :delete, :append, :replace].include?(instruction.operation)
       output = instruction.operation_class.execute(self, instruction)
     else
       output = @@operator_map[instruction.operation].call self, instruction if @@operator_map[instruction.operation]
@@ -41,5 +41,5 @@ class TextBuilder
   include Undo
   include Write
   include DeleteMixin
-  include Replace
+  include ReplaceMixin
 end
