@@ -13,16 +13,19 @@ def text_editor(instruction_text)
 
     new_output = text_state.operate instruction
 
-    append_to_output(output, new_output)
+    if new_output && new_output.size > 0
+      append_to_output(output, new_output)
+    else
+      output
+    end
   end
 end
 
 def append_to_output(output, new_output)
-  if output.size > 0 && new_output && new_output.size > 0
+  if output.size > 0
     output << "\n#{new_output}"
-  elsif output == '' && new_output && new_output.size > 0
-    output = new_output
+    return output
+  elsif output == ''
+    return new_output
   end
-
-  output
 end
