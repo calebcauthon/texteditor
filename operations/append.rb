@@ -7,7 +7,7 @@ class Append
 
   def execute(builder, instruction)
     text = instruction.operand
-    builder.set_new_text_state("#{builder.current_text}#{text}")
+    builder.current_text = "#{builder.current_text}#{text}"
     nil
   end
 

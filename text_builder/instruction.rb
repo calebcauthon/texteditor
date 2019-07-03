@@ -28,15 +28,7 @@ class Instruction
     @raw = instruction_line
   end
 
-  def disable_reversal
-    @reverse_disabled = true
-  end
-
   def reverse current_text
-    return if @reverse_disabled
-
-    reverse_name = "reverse_#{@operation.to_s}".to_sym
-
     if @operation_class.is_reversible?
       instruction = Instruction.new
       instruction.operation_class = self.operation_class.undo

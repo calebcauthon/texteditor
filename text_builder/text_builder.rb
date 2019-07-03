@@ -2,6 +2,7 @@ require_relative './instruction_parser'
 
 class TextBuilder
   attr_accessor :current_text
+  attr_accessor :undo_queue
 
   @@operator_map = Hash.new
   def self.operator_map
@@ -12,28 +13,27 @@ class TextBuilder
 
   def initialize
     @current_text = ''
-  end
-
-  def self.on_before_new_text_state
-    @@on_before_new_text_state
+    @undo_queue = [] unless @undo_queue
   end
 
   def operate instruction
     @current_instruction = instruction
 
-    if [:print, :delete, :append, :replace].include?(instruction.operation) or ['ReplaceUndo', 'AppendUndo', 'DeleteUndo'].include?(instruction.operation_class.class.name)
-      output = instruction.operation_class.execute(self, instruction)
+    if instruction.operation == :undo
+      undo
     else
-      output = @@operator_map[instruction.operation].call self, instruction if @@operator_map[instruction.operation]
+      if instruction.operation_class.is_reversible?
+        undo_queue.push instruction.reverse(current_text)
+      end
+      output = instruction.operation_class.execute(self, instruction)
     end
 
     output
   end
 
-  def set_new_text_state text
-    @@on_before_new_text_state.each { |hook| hook.call(self, self.current_text, text, @current_instruction) }
-    @current_text = text
+  def undo
+    undo_instruction = undo_queue.pop
+    operate undo_instruction
+    nil
   end
-
-  include Undo
 end
