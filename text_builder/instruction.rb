@@ -9,18 +9,14 @@ class Instruction
 
     case operator
     when '4'
-      @operation = :undo
+      @operation_class = Undo.new
     when '3'
-      @operation = :print
       @operation_class = Write.new
     when '2'
-      @operation = :delete
       @operation_class = Delete.new
     when '1'
-      @operation = :append
       @operation_class = Append.new
     when '5'
-      @operation = :replace
       @operation_class = Replace.new
     end
 
