@@ -12,7 +12,7 @@ class TextBuilder
   def operate instruction
     @current_instruction = instruction
 
-    undo_queue.push instruction.reverse(current_text) if instruction.operation_class.is_reversible?
-    instruction.operation_class.execute(self, instruction)
+    undo_queue.push instruction.reverse(current_text) if instruction.operation.is_reversible?
+    instruction.operation.execute(self, instruction)
   end
 end

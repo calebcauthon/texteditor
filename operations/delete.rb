@@ -27,7 +27,7 @@ class DeleteUndo
   end
 
   def execute(builder, instruction)
-    characters_removed = instruction.operand.operation_class.characters_removed
+    characters_removed = instruction.operand.operation.characters_removed
     builder.current_text = builder.current_text.concat(characters_removed)
     nil
   end

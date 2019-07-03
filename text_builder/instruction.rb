@@ -1,6 +1,5 @@
 class Instruction
   attr_accessor :operation
-  attr_accessor :operation_class
   attr_accessor :operand
   attr_accessor :raw
 
@@ -9,15 +8,15 @@ class Instruction
 
     case operator
     when '4'
-      @operation_class = Undo.new
+      @operation = Undo.new
     when '3'
-      @operation_class = Write.new
+      @operation = Write.new
     when '2'
-      @operation_class = Delete.new
+      @operation = Delete.new
     when '1'
-      @operation_class = Append.new
+      @operation = Append.new
     when '5'
-      @operation_class = Replace.new
+      @operation = Replace.new
     end
 
     @operand = instruction_line.slice(2..instruction_line.size-1)
@@ -26,7 +25,7 @@ class Instruction
 
   def reverse current_text
     instruction = Instruction.new
-    instruction.operation_class = self.operation_class.undo
+    instruction.operation = self.operation.undo
     instruction.operand = self
     instruction
   end
