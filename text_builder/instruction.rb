@@ -3,7 +3,7 @@ class Instruction
   attr_accessor :operand
   attr_accessor :raw
 
-  def load_from_text instruction_line
+  def load_from_text(instruction_line)
     operator = instruction_line.slice(0)
 
     case operator

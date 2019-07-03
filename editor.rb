@@ -9,9 +9,9 @@ def text_editor(instruction_text)
 
   instructions.instruction_lines.inject '' do |output, instruction_text|
     instruction = Instruction.new
-    instruction.load_from_text instruction_text
+    instruction.load_from_text(instruction_text)
 
-    new_output = text_state.operate instruction
+    new_output = text_state.operate(instruction)
 
     if new_output && new_output.size > 0
       append_to_output(output, new_output)
