@@ -7,9 +7,9 @@ class Delete
 
   def execute(builder, instruction)
     character_count = instruction.operand.to_i
-    start = builder.current_text.size-instruction.operand.to_i
-    the_end = builder.current_text.size-1
-    characters_to_delete = builder.current_text[start..the_end]
+    first = builder.current_text.size-instruction.operand.to_i
+    last = builder.current_text.size-1
+    characters_to_delete = builder.current_text[first..last]
     builder.current_text = builder.current_text[0...(-1 * character_count)]
 
     @characters_removed = characters_to_delete
