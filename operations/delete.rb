@@ -1,5 +1,3 @@
-require_relative './operator'
-
 class Delete
   attr_accessor :characters_removed
 

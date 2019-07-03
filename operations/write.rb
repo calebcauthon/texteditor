@@ -1,5 +1,3 @@
-require_relative './operator'
-
 class Write
   def is_reversible?
     false

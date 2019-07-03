@@ -8,9 +8,7 @@ def text_editor(instruction_text)
   instructions.load(instruction_text)
 
   output = ''
-  count = 1
   instructions.each_instruction do |instruction|
-    count = count + 1
     new_output = text_state.operate instruction
     output = append_to_output(output, new_output)
   end
